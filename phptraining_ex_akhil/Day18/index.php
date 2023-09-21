@@ -1,3 +1,8 @@
+<?php
+     $city= filter_input(INPUT_GET , "city", FILTER_UNSAFE_RAW);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +13,7 @@
 <body>
     
 <main>
+    <?php if(!isset($city)){ ?>
     <section>
         <h2>Select Data / Read Data</h2>
         <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="GET">
@@ -16,11 +22,11 @@
             <button>Submit</button>
         </form>
     </section>
+    <?php } else { ?>
     <?php 
     require("database.php");
     ?>
     <?php 
-     $city= filter_input(INPUT_GET , "city", FILTER_UNSAFE_RAW);
      if($city){
         $query = 'SELECT * FROM city WHERE Name = :city ORDER BY Population DESC';
         $statement = $conn->prepare($query);
@@ -33,6 +39,7 @@
         $statement->closeCursor();
     }
     ?>
+    <?php } ?>
 </main>
 </body>
 </html>
